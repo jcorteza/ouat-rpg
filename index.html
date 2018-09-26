@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900|Montserrat:200" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <title>Once Upont a Time RPG</title>
+</head>
+<body>
+    <div id="introText">
+        <h1>Once Upon A Time RPG</h1>
+        <p>Play as your favorite OUAT characters and battle villains like Malificent and Cruella to help the heroes get their happy endings!</p>
+    </div>
+    <div id="scoreDiv">
+    </div>
+    <div id="gameDiv">
+        <div class="charsInnerDiv">
+            <h3 id="heroText">Choose a Hero</h3>
+            <div id="heroCards"></div>
+            <p class="healthText">Health: <span id="heroHealth"></span></p>
+        </div>
+        <div class="charsInnerDiv">
+            <h3 id="villText">Who will you battle?</h3>
+            <div id="villainCards"></div>
+            <p class="healthText">Health: <span id="villHealth"></span></p>
+        </div>
+    <div id="fightDiv">
+        <h4>Fight!</h4>
+        <button id="ftBtn">Attack</button>
+        <p id="ftScn"></p>
+        <button id="nextRnd">Next Round</button>
+        <button id="reset">Reset Game</button>
+    </div>
+    </div>
+    <script src="./assets/js/game.js"></script>
+</body>
+</html>
