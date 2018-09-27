@@ -149,7 +149,6 @@ function assignPts(charSet) {
 
 function updateDisplay() {
     const ht1 = $("#villainCards > .charCard").height();
-    console.log($(ht1));
     $("#gameDiv").css("display", "flex");
     $("#fightDiv").css("display", "block");
     $("#villainCards").add("#heroCards").css("display", "block");
@@ -199,6 +198,60 @@ function outcome() {
         console.log("Inside if won is true fun.");
     }
 }
+function winResize() {
+    if(heroPicked && villPicked && ($(window).width() > 740)) {
+        $("#heroCards").add("#villainCards").css({
+            "display": "block",
+            "max-width": "100%"
+        });
+        $(".charCard").css({
+            "width": "100%"
+        })
+        $(".charsInnerDiv").css({
+            "width": "25%",
+            "align-items": "flex-start",
+            "margin-right": "4%"         
+        })
+        $("#gameDiv").css({
+            "display": "flex",
+            "flex-direction": "row",
+            "flex-wrap": "nowrap",
+            "align-items": "flex-start"
+        })
+        $("#fightDiv > h4").css({
+            "display": "block"
+        })      
+    }
+    else if (heroPicked && villPicked && ($(window).width() <= 740)) {
+        smResize();
+    }
+}
+function smResize() {
+    $("#heroCards").add("#villainCards").css({
+        "flex-direction": "column",
+        "flex-wrap": "nowrap",
+        "max-width": "95%",
+        "align-items": "center"
+    });
+    $(".charCard").css({
+        "max-width": "300px",
+        "min-width": "200px"
+    })
+    $(".charsInnerDiv").css({
+        "width": "80vw",
+        "align-items": "center"         
+    })
+    $("#gameDiv").css({
+        "display": "flex",
+        "flex-direction": "column",
+        "flex-wrap": "nowrap",
+        "align-items": "center"
+    })
+    $("#fightDiv > h4").css({
+        "display": "inline",
+        "margin-left": "20%"
+    })
+}
 $(document).ready(function() {
     let heroPicked = false;
     let villPicked = false;
@@ -236,7 +289,7 @@ $(document).ready(function() {
            updateDisplay();           
         }
         else if (heroPicked && villPicked) {
-            $("#fightDiv").css("display", "block");
+            $smResize();
         }
     });
     $("#ftBtn").on("click", function() {
@@ -263,4 +316,5 @@ $(document).ready(function() {
     });
     $("#nextRnd").on("click", function() {});
     $("#reset").on("click", function() {});
+    $(window).resize(winResize);
 });
