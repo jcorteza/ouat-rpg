@@ -142,7 +142,7 @@ function assignPts(charSet) {
         }
         else if(charSet[i].type === "villain") {
             charSet[i].healthPts = setPts(75, 75, numArray);
-            charSet[i].counterPts = setPts(50, 50, numArray);
+            charSet[i].counterPts = setPts(75, 75, numArray);
         }
     }
 }
@@ -158,7 +158,7 @@ function updateDisplay() {
     $("#villainCards").add("#heroCards").css("max-width", "100%");
     $(".healthText").css("display", "block");
 }
-function updateVillHealthh() {
+function updateVillHealth() {
     if(villHealth <= 0) {
         $("#ftScn").text("You won this round!");
         $("#ftScn").css("display", "block");
@@ -184,6 +184,21 @@ function updateHeroHealth() {
         return;
     }
 }
+function outcome() {
+    if (won && lost) {
+        $("#ftScn").text("You both lost.");
+        $("#reset").css("display", "block");
+        console.log("Inside if lost and won both true fun.");
+    }
+    else if(lost) {
+        $("#reset").css("display", "block");
+        console.log("Inside if lost is true fun.");
+    }
+    else if (won) {
+        $("#nextRnd").css("display", "block");
+        console.log("Inside if won is true fun.");
+    }
+}
 $(document).ready(function() {
     let heroPicked = false;
     let villPicked = false;
@@ -202,8 +217,11 @@ $(document).ready(function() {
         heroCounter = $(this).attr("data-counter");
         $("#heroHealth").text(heroHealth);
         heroPicked = true;
-        if(heroPicked && villPicked) {
+        if(heroPicked && villPicked && ($(window).width() > 640)) {
             updateDisplay();
+        }
+        else if(heroPicked && villPicked) {
+            $("#fightDiv").css("display", "block");
         }
     });
     $("#villainCards").on("click", ".charCard", function() {
@@ -214,37 +232,34 @@ $(document).ready(function() {
         villCounter = $(this).attr("data-counter");
         $("#villHealth").text(villHealth);
         villPicked = true;
-        if(heroPicked && villPicked) {
+        if(heroPicked && villPicked && ($(window).width() > 640)) {
            updateDisplay();           
+        }
+        else if (heroPicked && villPicked) {
+            $("#fightDiv").css("display", "block");
         }
     });
     $("#ftBtn").on("click", function() {
         villHealth = villHealth-heroAttack;
         $("#villHealth").text(villHealth);
-        updateVillHealthh();
+        updateVillHealth();
+        outcome();
+        console.log(villHealth);
         heroHealth = heroHealth-villCounter;
         $("#heroHealth").text(heroHealth);
         updateHeroHealth();
+        outcome();
+        console.log(heroHealth);
         villHealth = villHealth-heroCounter;
         $("#villHealth").text(villHealth);
-        updateVillHealthh()
+        updateVillHealth();
+        outcome();
+        console.log(villHealth);
         round++;
         heroAttack = heroAttack * round;
         console.log("Won is " + won);
         console.log("Lost is " + lost);
-        if (won && lost) {
-            $("#ftScn").text("You both lost.");
-            $("#reset").css("display", "block");
-            console.log("Inside if lost and won both true fun.");
-        }
-        else if(lost) {
-            $("#reset").css("display", "block");
-            console.log("Inside if lost is true fun.");
-        }
-        else if (won) {
-            $("#nextRnd").css("display", "block");
-            console.log("Inside if won is true fun.");
-        }
+
     });
     $("#nextRnd").on("click", function() {});
     $("#reset").on("click", function() {});

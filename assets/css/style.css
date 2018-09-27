@@ -78,3 +78,29 @@ button {
  #ftScn {
      padding: .5rem 0px;
  }
+ @media screen and (max-width: 640px) {
+    #heroCards, #villainCards {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        width: 90vw;
+        align-items: center;
+    }
+    .charCard {
+        max-width: 325px;
+        min-width: 200px;
+    }
+    .charsInnerDiv {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    #fightDiv h4 {
+        display: inline;
+        margin-left: 20%;
+        //text-align: center;
+    }
+    button {
+        margin-left: 5%;
+    }
+ }
