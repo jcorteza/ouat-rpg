@@ -95,8 +95,10 @@ var heroAttack;
 var heroCounter;
 var villHealth;
 var villCounter;
-let lost = false;
-let won = false;
+var lost = false;
+var won = false;
+var heroPicked = false;
+var villPicked = false;
 
 /* function fills out character divs in html */
 function displayChars(charSet) {
@@ -236,25 +238,26 @@ function smResize() {
     $(".charCard").css({
         "max-width": "300px",
         "min-width": "200px"
-    })
+    });
     $(".charsInnerDiv").css({
         "width": "80vw",
         "align-items": "center"         
-    })
+    });
     $("#gameDiv").css({
         "display": "flex",
         "flex-direction": "column",
         "flex-wrap": "nowrap",
         "align-items": "center"
-    })
+    });
     $("#fightDiv > h4").css({
         "display": "inline",
         "margin-left": "20%"
-    })
+    });
+    $("button").css({
+        color: "#FADA5E"
+    });
 }
 $(document).ready(function() {
-    let heroPicked = false;
-    let villPicked = false;
     const heroesRef = characters.heroes;
     const villsRef = characters.villains;
     assignPts(heroesRef);
@@ -274,6 +277,7 @@ $(document).ready(function() {
             updateDisplay();
         }
         else if(heroPicked && villPicked) {
+            smResize();
             $("#fightDiv").css("display", "block");
         }
     });
@@ -289,7 +293,8 @@ $(document).ready(function() {
            updateDisplay();           
         }
         else if (heroPicked && villPicked) {
-            $smResize();
+            smResize();
+            $("#fightDiv").css("display", "block");
         }
     });
     $("#ftBtn").on("click", function() {
