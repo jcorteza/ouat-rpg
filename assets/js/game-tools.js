@@ -4,8 +4,8 @@ var characters = {
             title: "Emma Swan, The Savior",
             quote: "I'm fighting for the people I love.",
             powers: "Light Magic, Lie Detection, Healing",
-            healthPts: 115,
-            attackPts: 15,
+            healthPts: 152,
+            attackPts: 20,
             counterPts: 5,
             profileImg: "./assets/images/emma-1.jpeg",
             type: "hero"
@@ -14,8 +14,8 @@ var characters = {
             title: "Henry Mills, The Truest Believer",
             quote: "You may not believe[...]but I believe in you.",
             powers: "Belief, Power of The Author, Knowledge of Stories",
-            healthPts: 105,
-            attackPts: 11,
+            healthPts: 130,
+            attackPts: 15,
             counterPts: 10,
             profileImg: "./assets/images/henry-3.jpg",
             type: "hero"
@@ -24,9 +24,9 @@ var characters = {
             title: "Mary Margaret Blanchard, Snow White",
             quote: "If people are supposed to be together, they find a way.",
             powers: "Leadership, Archery, Resourcefulness",
-            healthPts: 120,
-            attackPts: 12,
-            counterPts: 7,
+            healthPts: 155,
+            attackPts: 17,
+            counterPts: 8,
             profileImg: "./assets/images/snow.jpg",
             type: "hero"
         },
@@ -34,9 +34,9 @@ var characters = {
             title: "David Nolan, Prince Charming",
             quote: "You never have to worry. I will always find you.",
             powers: "Swordsmanship, Fighting, Timing",
-            healthPts: 110,
-            attackPts: 9,
-            counterPts: 15,
+            healthPts: 147,
+            attackPts: 12,
+            counterPts: 7,
             profileImg: "./assets/images/charming.jpg",
             type: "hero"
         }
@@ -119,31 +119,33 @@ function displayChars(charSet) {
 function setupHeroes() {
     //hide all the hero cards except for the one that was clicked
     $("#heroCards > .charCard").not($(this)).css("display", "none");
-    $("#heroText").text("Your Hero");
+    $(this).css("margin", "auto");
+    $("#heroText").text("The Hero");
     // set hero variables
     heroHealth = $(this).attr("data-health");
     heroAttack = $(this).attr("data-attack");
+    baseAttack = $(this).attr("data-attack");
     heroCounter = $(this).attr("data-counter");
     $("#heroHealth").text(heroHealth);
-    // set heroPicked to true;
     $("#heroCards").off("click");
+    // set heroPicked to true;
     heroPicked = true;
-    // if both heroPicked and villPicked are true, display #fightDiv
     timeToPlay();
 }
 function setupVillains() {
-    // hide all villain cards except for the one that was clicked
-    $("#villainCards > .charCard").not($(this)).css("display", "none");
+    $("#villainCards").off("click");
+    $(this).detach();
+    console.log($("#villainCards"));
+    $("#currentEnemy").append(this);
+    $("#villainCards").css("display", "none");
     $("#villText").text("The Villain");
     //set villain variables
     villHealth = $(this).attr("data-health");
+    console.log(villHealth);
     villCounter = $(this).attr("data-counter");
     $("#villHealth").text(villHealth);
     // set villPicked to true;
-    $("#villainCards").off("click");
-    delete characters.villains[$(this).attr("data-key")];
     villPicked = true;
-    // if both heroPicked and villPicked are true, display #fightDiv
     timeToPlay();
 }
 function timeToPlay() {
@@ -157,7 +159,8 @@ function heroAttacks() {
     villHealth = villHealth-heroAttack;
     console.log("Villain health is now " + villHealth);
     $("#villHealth").text(villHealth);
-    heroAttack = heroAttack * round;
+    heroAttack = baseAttack * round;
+    console.log("Hero attack power is now " + heroAttack);
 }
 function heroCounters() {
     $("#ftScn").text("You counter the attack.");
@@ -175,45 +178,61 @@ function outcome() {
     $("#fightDiv").css("display", "none");
     if(!won && lost) {
         $("#nextRnd").css("display", "none");
-        $("#reset").css("display", "block");
-        $("#resultsDiv").css("display", "block");
+        $("#game").text("Game Over");
         $("#resultText").text("The villains have won.");
         console.log("Game was lost");
     }
     else if (won && !lost) {
         wins++;
         if(wins < 4) {
+            $("#game").text("Round Won");
             $("#nextRnd").css("display", "block");
             $("#resultText").text("You defeated the villain!");
         }
         else if(wins === 4) {
+            $("#game").text("Game Over");
             $("#resultText").text("You saved everyone's happy endings!");
         }
-        $("#reset").css("display", "block");
-        $("#resultsDiv").css("display", "block");
-        console.log("Game was won");
-        
+        console.log("Game was won"); 
     }
+    $("#resultsDiv").css("display", "block");
 }
 function ftSequence() {
+    console.log("Inside ftSequence function.");
+    $("#ftBtn").attr("disabled", "disabled");
     round++;
+    console.log("Hero attacks");
     heroAttacks();
     if(villHealth > 0 ) {
+        console.log("Villain survived the attack.");
         setTimeout(function() {
+            console.log("Villain attacked.");
             villAttacks();
             if(heroHealth > 0) {
+                console.log("Hero survived the attack.");
                 setTimeout(function() {
+                    console.log("The hero counters the attack.");
                     heroCounters();
                     if(villHealth <= 0) {
+                        console.log("The villain was defeated.");
+                        $("#ftBtn").removeAttr("disabled");
                         $("#villHealth").text("0");
                         won = true;
                         outcome();
-                        if (wins === 4)
+                        if (wins === 4) {
+                            return;
+                        }
+                    }
+                    else {
+                        console.log("The villain survived the attack.");
+                        $("#ftBtn").removeAttr("disabled");
                         return;
                     }
                 }, 1000);
             }
             else {
+                console.log("The hero was defeated.");
+                $("#ftBtn").removeAttr("disabled");
                 $("#heroHealth").text("0");
                 lost = true;
                 outcome();
@@ -222,9 +241,25 @@ function ftSequence() {
         }, 1000);
     }
     else {
+        console.log("The villain was defeated.");
+        $("#ftBtn").removeAttr("disabled");
         $("#villHealth").text("0");
         won = true;
         outcome();
         return;
     }
+}
+function resetRound() {
+    villPicked = false;
+    lost = false;
+    won = false;
+    $("#currentEnemy").empty();
+    $(".healthText").css("display", "none");
+    $("#resultsDiv").css("display", "none");
+    $("#villainsCards").removeAttr("style");
+    $("#villainCards").css("display", "");
+    $("#reset").removeAttr("disabled");
+    $("#nextRnd").removeAttr("disabled");
+    $("#ftScn").text("");
+    $("#villText").text("Who will you battle?");
 }
