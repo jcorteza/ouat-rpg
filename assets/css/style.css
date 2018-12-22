@@ -28,7 +28,7 @@ h2 {
 h3, h4{
     font-size: 1.75rem;
     text-align: center;
-    margin: .75rem 0rem;
+    margin: 2vh 0vh;
 }
 p {
     font-family: 'Lato', sans-serif;
@@ -75,6 +75,10 @@ button:hover {
 }
 @media screen and (min-width: 640px) {
     #heroCards, #villainCards {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
@@ -91,11 +95,15 @@ button:hover {
         margin: auto;
     }
     h3, h4 {
-        margin: 3.5vh;
+        margin: 5vh;
     }
 }
 @media screen and (min-width: 1007px) {
     #gameDiv {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -127,8 +135,5 @@ button:hover {
     #fightDiv, #resultsDiv {
         flex-basis: 30vw;
         flex-grow: 2;
-    }
-    h3, h4 {
-        margin: 5vh;
     }
 }
